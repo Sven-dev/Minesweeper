@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4989836045423086359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4989836045423086357}
+  - component: {fileID: 4989836045423086356}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4989836045423086357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989836045423086359}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4989836045423086356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989836045423086359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4192bebe198e6154689f11bb710efa35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _MasterVolume: 1
+  _SoundVolume: 1
+  _MusicVolume: 1
+  _DialogueVolume: 1
+  Sounds:
+  - Name: TimeRunningOut
+    Clip: {fileID: 8300000, guid: fb9dac07a576ba34094d3ac771cd8fc5, type: 3}
+    Clips:
+    - {fileID: 8300000, guid: fb9dac07a576ba34094d3ac771cd8fc5, type: 3}
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Source: {fileID: 0}
+    Type: 0
+    MaxVolume: 0
+  - Name: TimeRanOut
+    Clip: {fileID: 8300000, guid: a7334bfa4b497e74482a4936d086e23e, type: 3}
+    Clips:
+    - {fileID: 8300000, guid: a7334bfa4b497e74482a4936d086e23e, type: 3}
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Source: {fileID: 0}
+    Type: 0
+    MaxVolume: 0
+  - Name: CountdownBeep
+    Clip: {fileID: 8300000, guid: ec0009c6e0bf78d48b5dcb99623b1c30, type: 3}
+    Clips:
+    - {fileID: 8300000, guid: ec0009c6e0bf78d48b5dcb99623b1c30, type: 3}
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Source: {fileID: 0}
+    Type: 0
+    MaxVolume: 0
+  - Name: CountdownGo
+    Clip: {fileID: 8300000, guid: 035f1e23d136e414eae019ecfeb57b4a, type: 3}
+    Clips:
+    - {fileID: 8300000, guid: 035f1e23d136e414eae019ecfeb57b4a, type: 3}
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Source: {fileID: 0}
+    Type: 0
+    MaxVolume: 0
+  - Name: ScoreGrow
+    Clip: {fileID: 8300000, guid: 5cbbd8578fb07234e86d23bc8a897580, type: 3}
+    Clips:
+    - {fileID: 8300000, guid: 5cbbd8578fb07234e86d23bc8a897580, type: 3}
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Source: {fileID: 0}
+    Type: 0
+    MaxVolume: 0
+  - Name: ScoreWin
+    Clip: {fileID: 8300000, guid: cccb83c38458a5b47858339a065c2939, type: 3}
+    Clips:
+    - {fileID: 8300000, guid: cccb83c38458a5b47858339a065c2939, type: 3}
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Source: {fileID: 0}
+    Type: 0
+    MaxVolume: 0
+  Music:
+  - Name: 
+    Clip: {fileID: 0}
+    Clips:
+    - {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Source: {fileID: 0}
+    Type: 0
+    MaxVolume: 0
+  Dialogue:
+  - Name: 
+    Clip: {fileID: 0}
+    Clips:
+    - {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Source: {fileID: 0}
+    Type: 0
+    MaxVolume: 0

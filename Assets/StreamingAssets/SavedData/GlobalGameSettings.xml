@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ArrayOfGlobalGameSetting xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <GlobalGameSetting>
+    <Label>Reset HS</Label>
+    <Value>No</Value>
+    <PossibleValues>
+      <string>No</string>
+      <string>Yes</string>
+    </PossibleValues>
+    <Default>No</Default>
+  </GlobalGameSetting>
+</ArrayOfGlobalGameSetting>
