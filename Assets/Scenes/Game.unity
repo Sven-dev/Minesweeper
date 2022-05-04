@@ -196,7 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7451bcfb5df2a7442b3225a52928e7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSize: 5
+  GridSize: 8
+  Bombs: 24
   Grid: {fileID: 90718927}
   PanelPrefab: {fileID: 7078802091721977472, guid: f7117c92912dfb3408374fbaca121c64,
     type: 3}

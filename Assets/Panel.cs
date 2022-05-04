@@ -7,7 +7,6 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
 {
     [HideInInspector] public Vector2 Coordinates;
     [HideInInspector] public bool Bomb = false;
-    [HideInInspector] public int Value;
     [HideInInspector] public bool Revealed = false;
 
     [SerializeField] private Image Background;
@@ -26,23 +25,28 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
 
     public void Hit(Vector3 hitPosition)
     {
-        GridManager.Instance.revealPanel(Coordinates);
+        print("Hit");
+        if (!Revealed)
+        {
+            GridManager.Instance.revealPanel(Coordinates);
+        }
     }
 
-    public void Reveal()
+    public void Reveal(int value)
     {
         Revealed = true;
+        Background.color = Color.white;
 
         //reveal either nothing, a number or a bomb
-        if (Value == -1)
+        if (value == -1)
         {
             //Bomb
             BombImage.enabled = true;
         }
-        else if (Value != 0)
+        else if (value != 0)
         {
             ValueLabel.enabled = true;
-            ValueLabel.text = Value.ToString();
+            ValueLabel.text = value.ToString();
         }
 
         //turn the panel around (or another animation)
