@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,12 +43,12 @@ public class GUIManager : MonoBehaviour
     private IEnumerator _Timer()
     {
         //To do: convert seconds to time
-
-        int time = 0;
+        double time = 0;
         while (true)
         {
             time++;
-            TimerLabel.text = time.ToString();
+            TimerLabel.text = TimeSpan.FromMinutes(time).ToString(@"hh\:mm");
+            //string test = "Time of Travel: {0:dd\\.hh\\:mm\\:ss} days", duration)
             yield return new WaitForSeconds(1);
         }
     }
