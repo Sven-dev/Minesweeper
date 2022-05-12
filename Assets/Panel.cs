@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class Panel : MonoBehaviour, I_SmartwallInteractable
 {
     [HideInInspector] public Vector2 Coordinates;
-    [HideInInspector] public int Value;
-    [HideInInspector] public bool Bomb = false;
+    [HideInInspector] public int Value; //-1 = bomb, 0 = no adjacent bombs, 1..9 = x ajacent bombs.
     [HideInInspector] public bool Revealed = false;
+    [HideInInspector] public bool Flagged = false;
 
     [SerializeField] private Image Background;
     [SerializeField] private Text ValueLabel;
     [SerializeField] private Image BombImage;
+    [SerializeField] private Image FlagImage;
     [Space]
     [SerializeField] private BoxCollider2D Collider;
 
@@ -29,8 +30,21 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
         print("Hit");
         if (!Revealed)
         {
-            GridManager.Instance.revealPanel(Coordinates);
+            if (GridManager.Instance.FlagMode)
+            {
+                GridManager.Instance.FlagPanel(Coordinates);
+            }
+            else if (!Flagged)
+            {
+                GridManager.Instance.revealPanel(Coordinates);
+            }
         }
+    }
+
+    public void ToggleFlag()
+    {
+        Flagged = !Flagged;
+        FlagImage.enabled = Flagged;
     }
 
     public void Reveal(int value)

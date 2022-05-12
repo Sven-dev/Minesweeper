@@ -15,7 +15,8 @@ public class GridManager : MonoBehaviour
     [Space]
     [SerializeField] private GUIManager GUIManager;
 
-    private int PanelsLeft;
+    [HideInInspector] public bool FlagMode = false;
+    private int BombsLeft;
 
     private Panel[,] Panels;
     private bool FirstClick = true;
@@ -24,10 +25,76 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        PanelsLeft = GridSize * GridSize - Bombs;
+        BombsLeft = Bombs;
         GenerateGrid();
 
         GUIManager.SetBombAmount(Bombs);
+    }
+
+    public void revealPanel(Vector2 coordinates)
+    {
+        Panel panel = GetPanel(coordinates);
+        if (panel.Revealed)
+        {
+            Debug.LogError("reveal duplicate");
+            //Ideally this code should never be triggered, but it will for now
+            return;
+        }
+
+        if (FirstClick)
+        {
+            FirstClick = false;
+            GenerateBombs(Bombs, coordinates);
+
+            GUIManager.FirstPanelReveal();
+        }
+
+        int value = GetValue(coordinates);
+        panel.Reveal(value);
+        
+        if (panel.Value == -1)
+        {
+            //Game over
+            print("game over");
+            return;
+        }
+
+        //reveal the surrounding panels if there isn't a bomb next to it
+        if (panel.Value == 0)
+        {
+            StartCoroutine(_AutoReveal(coordinates));
+        }
+    }
+
+    /// <summary>
+    /// Flag a panel as having a bomb
+    /// </summary>
+    public void FlagPanel(Vector2 coordinates)
+    {
+        Panel panel = GetPanel(coordinates);
+        panel.ToggleFlag();
+
+        int bombChange = 1;
+        if (panel.Flagged)
+        {
+            bombChange = -1;
+        }
+
+        BombsLeft += bombChange;
+        GUIManager.SetBombAmount(BombsLeft);
+
+        if (BombsLeft == 0)
+        {
+            CheckVictory();
+        }
+    }
+
+    /// <summary>
+    /// Enables or disables the ability to place flags on panels players suspect to have bombs
+    /// </summary>
+    public void ToggleFlagMode(bool value)
+    {
+        FlagMode = value;
     }
 
     private void GenerateGrid()
@@ -35,8 +102,8 @@ public class GridManager : MonoBehaviour
         Panels = new Panel[GridSize, GridSize];
 
         //Calculate the cell size
-        //((total space - side padding) - padding per panel) / amount of panels;
-        Vector2 cellSize = Vector2.one * ((1100 - 20) - 10 * GridSize) / GridSize;
+        //((total space - side padding) - (padding per panel (amount of panels)) / amount of panels;
+        Vector2 cellSize = Vector2.one * ((1100 - 20) - 10 * (GridSize - 1)) / GridSize;
         Grid.cellSize = cellSize;
 
         int x = 0;
@@ -72,60 +139,20 @@ public class GridManager : MonoBehaviour
         {
             Vector2 bombCoordinates = new Vector2(Random.Range(0, GridSize), Random.Range(0, GridSize));
 
+            //To do: Check for a minimum distance from the skipcoordinates
+
             //If the coordinates aren't the same as the skipcoordinates
             if (bombCoordinates != SkipCoordinates)
             {
                 //And the coordinates don't have a bomb on them already
                 Panel panel = GetPanel(bombCoordinates);
-                if (!panel.Bomb)
+                if (panel.Value != -1)
                 {
                     //place bomb
-                    panel.Bomb = true;
+                    panel.Value = -1;
                     i++;
                 }
             }
-        }
-    }
-
-    public void revealPanel(Vector2 coordinates)
-    {
-        Panel panel = GetPanel(coordinates);
-        if (panel.Revealed)
-        {
-            Debug.LogError("reveal duplicate");
-            //Ideally this code should never be triggered, but it will for now
-            return;
-        }
-
-        if (FirstClick)
-        {
-            FirstClick = false;
-            GenerateBombs(Bombs, coordinates);
-
-            GUIManager.FirstPanelReveal();
-        }
-
-        int value = GetValue(coordinates);
-        panel.Reveal(value);
-        
-        if (panel.Bomb)
-        {
-            //Game over
-            print("game over");
-            return;
-        }
-
-        PanelsLeft--;
-        if (PanelsLeft == 0)
-        {
-            print("win");
-            return;
-        }
-
-        //reveal the surrounding panels if there isn't a bomb next to it
-        if (panel.Value == 0)
-        {
-            StartCoroutine(_AutoReveal(coordinates));
         }
     }
 
@@ -195,14 +222,6 @@ public class GridManager : MonoBehaviour
                 if (value != -1)
                 {
                     panel.Reveal(value);
-                    PanelsLeft--;
-                    if (PanelsLeft == 0)
-                    {
-                        //To do: the win condition needs to be triggered when the user places a flag
-                        print("win");
-                        break;
-                    }
-
                     if (value == 0)
                     {
                         //Add the surrounding coordinates to the reveal list, but only if they aren't in there already
@@ -299,9 +318,9 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="coordinates">The place of the panel in the array</param>
     /// <returns>an int determining its value (-1 == bomb, 0 == no adjacent bombs, 1-8 == adjacent bombs)</returns>
-    public int GetValue(Vector2 coordinates)
+    private int GetValue(Vector2 coordinates)
     {
-        if (GetPanel(coordinates).Bomb)
+        if (GetPanel(coordinates).Value == -1)
         {
             //Value is a bomb, game over
             return -1;
@@ -312,7 +331,7 @@ public class GridManager : MonoBehaviour
         Vector2 tempcoordinates = coordinates + Vector2.up;
         if (InGrid(tempcoordinates))
         {
-            if (GetPanel(tempcoordinates).Bomb)
+            if (GetPanel(tempcoordinates).Value == -1)
             {
                 //Up
                 value++;
@@ -322,7 +341,7 @@ public class GridManager : MonoBehaviour
         tempcoordinates = coordinates + Vector2.up + Vector2.right;
         if (InGrid(tempcoordinates))
         {
-            if (GetPanel(tempcoordinates).Bomb)
+            if (GetPanel(tempcoordinates).Value == -1)
             {
                 //Up
                 value++;
@@ -332,7 +351,7 @@ public class GridManager : MonoBehaviour
         tempcoordinates = coordinates + Vector2.right;
         if (InGrid(tempcoordinates))
         {
-            if (GetPanel(tempcoordinates).Bomb)
+            if (GetPanel(tempcoordinates).Value == -1)
             {
                 //Right
                 value++;
@@ -342,7 +361,7 @@ public class GridManager : MonoBehaviour
         tempcoordinates = coordinates + Vector2.right + Vector2.down;
         if (InGrid(tempcoordinates))
         {
-            if (GetPanel(tempcoordinates).Bomb)
+            if (GetPanel(tempcoordinates).Value == -1)
             {
                 //Right
                 value++;
@@ -352,7 +371,7 @@ public class GridManager : MonoBehaviour
         tempcoordinates = coordinates + Vector2.down;
         if (InGrid(tempcoordinates))
         {
-            if (GetPanel(tempcoordinates).Bomb)
+            if (GetPanel(tempcoordinates).Value == -1)
             {
                 //Down
                 value++;
@@ -362,7 +381,7 @@ public class GridManager : MonoBehaviour
         tempcoordinates = coordinates + Vector2.down + Vector2.left;
         if (InGrid(tempcoordinates))
         {
-            if (GetPanel(tempcoordinates).Bomb)
+            if (GetPanel(tempcoordinates).Value == -1)
             {
                 //Right
                 value++;
@@ -372,7 +391,7 @@ public class GridManager : MonoBehaviour
         tempcoordinates = coordinates + Vector2.left;
         if (InGrid(tempcoordinates))
         {
-            if (GetPanel(tempcoordinates).Bomb)
+            if (GetPanel(tempcoordinates).Value == -1)
             {
                 //Left
                 value++;
@@ -382,7 +401,7 @@ public class GridManager : MonoBehaviour
         tempcoordinates = coordinates + Vector2.left + Vector2.up;
         if (InGrid(tempcoordinates))
         {
-            if (GetPanel(tempcoordinates).Bomb)
+            if (GetPanel(tempcoordinates).Value == -1)
             {
                 //Right
                 value++;
@@ -390,5 +409,22 @@ public class GridManager : MonoBehaviour
         }
 
         return value;
+    }
+
+    private void CheckVictory()
+    {
+        int bombCounter = 0;
+        foreach (Panel panel in Grid.transform.GetComponentsInChildren<Panel>())
+        {
+            if (panel.Flagged && panel.Value == -1)
+            {
+                bombCounter++;
+            }
+        }
+
+        if (bombCounter == Bombs)
+        {
+            print("victory");
+        }
     }
 }
