@@ -28,7 +28,7 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     public void Hit(Vector3 hitPosition)
     {
         print("Hit");
-        if (!Revealed)
+        if (!GridManager.Instance.GameOver && !Revealed)
         {
             if (GridManager.Instance.FlagMode)
             {
@@ -67,5 +67,10 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
 
         //turn the panel around (or another animation)
         //Sound effect
+    }
+
+    public void ShowBomb()
+    {
+        BombImage.enabled = true;
     }
 }

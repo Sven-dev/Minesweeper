@@ -7,15 +7,36 @@ public class GUIManager : MonoBehaviour
 {
     [SerializeField] private Text TimerLabel;
     [SerializeField] private Text BombsLeftLabel;
+    [Space]
+    [SerializeField] private GameObject VictoryPanel;
+    [SerializeField] private GameObject GameOverPanel;
+
+    private IEnumerator Timer;
 
     public void SetBombAmount(int bombAmount)
     {
         BombsLeftLabel.text = bombAmount.ToString();
     }
 
-    public void FirstPanelReveal()
+    public void Victory()
     {
-        StartCoroutine(_Timer());
+        VictoryPanel.SetActive(true);
+    }
+
+    public void GameOver()
+    {
+        GameOverPanel.SetActive(true);
+    }
+
+    public void StartTimer()
+    {
+        Timer = _Timer();
+        StartCoroutine(Timer);
+    }
+
+    public void StopTimer()
+    {
+        StopCoroutine(Timer);
     }
 
     private IEnumerator _Timer()

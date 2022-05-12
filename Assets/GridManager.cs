@@ -15,8 +15,9 @@ public class GridManager : MonoBehaviour
     [Space]
     [SerializeField] private GUIManager GUIManager;
 
+    [HideInInspector] public bool GameOver = false;
     [HideInInspector] public bool FlagMode = false;
-    private int BombsLeft;
+    private int BombsLeft; 
 
     private Panel[,] Panels;
     private bool FirstClick = true;
@@ -46,7 +47,7 @@ public class GridManager : MonoBehaviour
             FirstClick = false;
             GenerateBombs(Bombs, coordinates);
 
-            GUIManager.FirstPanelReveal();
+            GUIManager.StartTimer();
         }
 
         int value = GetValue(coordinates);
@@ -54,8 +55,7 @@ public class GridManager : MonoBehaviour
         
         if (panel.Value == -1)
         {
-            //Game over
-            print("game over");
+            StartCoroutine(_GameOver());
             return;
         }
 
@@ -85,7 +85,7 @@ public class GridManager : MonoBehaviour
 
         if (BombsLeft == 0)
         {
-            CheckVictory();
+            StartCoroutine(CheckVictory());
         }
     }
 
@@ -112,7 +112,7 @@ public class GridManager : MonoBehaviour
         {
             //Instantiate a panel
             Panel panel = Instantiate(PanelPrefab, transform);
-            panel.SetColliderSize(cellSize);
+            panel.SetColliderSize(cellSize + Vector2.one * 10);
 
             //Deterimine the coordinates and add the panel to an array
             if (y >= GridSize)
@@ -143,7 +143,7 @@ public class GridManager : MonoBehaviour
             //Make sure the bombs get spawned at least 2 panels away from the clicked position
             if (bombCoordinates.x > clickedCoordinates.x + 1 || bombCoordinates.x < clickedCoordinates.x - 1 && bombCoordinates.y > clickedCoordinates.y + 1 || bombCoordinates.y < clickedCoordinates.y - 1)
             {
-                //And the coordinates don't have a bomb on them already
+                //Check if the coordinates don't have a bomb on them already
                 Panel panel = GetPanel(bombCoordinates);
                 if (panel.Value != -1)
                 {
@@ -410,7 +410,7 @@ public class GridManager : MonoBehaviour
         return value;
     }
 
-    private void CheckVictory()
+    private IEnumerator CheckVictory()
     {
         int bombCounter = 0;
         foreach (Panel panel in Grid.transform.GetComponentsInChildren<Panel>())
@@ -424,6 +424,31 @@ public class GridManager : MonoBehaviour
         if (bombCounter == Bombs)
         {
             print("victory");
+            yield return new WaitForSeconds(2);
+            GUIManager.Victory();
         }
+    }
+
+    private IEnumerator _GameOver()
+    {
+        GameOver = true;
+
+        GUIManager.StopTimer();
+        yield return new WaitForSeconds(2f);
+
+        Panel[] panels = Grid.transform.GetComponentsInChildren<Panel>();
+        foreach (Panel panel in panels)
+        {
+            if (panel.Value == -1)
+            {
+                panel.ShowBomb();
+                yield return new WaitForSeconds(Random.Range(0.01f, 0.07f));
+            }
+        }
+
+        yield return new WaitForSeconds(2f);
+        GUIManager.GameOver();
+
+        
     }
 }
