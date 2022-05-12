@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Panel : MonoBehaviour, I_SmartwallInteractable
 {
     [HideInInspector] public Vector2 Coordinates;
+    [HideInInspector] public int Value;
     [HideInInspector] public bool Bomb = false;
     [HideInInspector] public bool Revealed = false;
 
@@ -35,6 +36,7 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     public void Reveal(int value)
     {
         Revealed = true;
+        Value = value;
         Background.color = Color.white;
 
         //reveal either nothing, a number or a bomb

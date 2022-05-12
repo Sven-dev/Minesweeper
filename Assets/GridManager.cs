@@ -88,6 +88,7 @@ public class GridManager : MonoBehaviour
         Panel panel = GetPanel(coordinates);
         if (panel.Revealed)
         {
+            print("reveal duplicate");
             //Ideally this code should never be triggered, but it will for now
             return;
         }
@@ -115,14 +116,18 @@ public class GridManager : MonoBehaviour
             return;
         }
 
-        //reveal the surrounding panels
-        StartCoroutine(_AutoReveal(coordinates));       
+        //reveal the surrounding panels if there isn't a bomb next to it
+        if (panel.Value == 0)
+        {
+            StartCoroutine(_AutoReveal(coordinates));
+        }
     }
 
     private IEnumerator _AutoReveal(Vector2 panelcoords)
     {
         List<Vector2> coordinates = new List<Vector2>();
 
+        #region Adding surrounding coordinates
         //Add the surrounding panel coords to the list
         Vector2 temp = panelcoords + Vector2.up;
         if (InGrid(temp))
@@ -148,6 +153,31 @@ public class GridManager : MonoBehaviour
             coordinates.Add(temp);
         }
 
+        temp = panelcoords + Vector2.up + Vector2.left;
+        if (InGrid(temp))
+        {
+            coordinates.Add(temp);
+        }
+
+        temp = panelcoords + Vector2.down + Vector2.left;
+        if (InGrid(temp))
+        {
+            coordinates.Add(temp);
+        }
+
+        temp = panelcoords + Vector2.up + Vector2.right;
+        if (InGrid(temp))
+        {
+            coordinates.Add(temp);
+        }
+
+        temp = panelcoords + Vector2.down + Vector2.right;
+        if (InGrid(temp))
+        {
+            coordinates.Add(temp);
+        }
+        #endregion
+
         for (int i = 0; i < coordinates.Count; i++)
         {
             Panel panel = GetPanel(coordinates[i]);
@@ -162,33 +192,63 @@ public class GridManager : MonoBehaviour
                     PanelsLeft--;
                     if (PanelsLeft == 0)
                     {
+                        //To do: the win condition needs to be triggered when the user places a flag
                         print("win");
                         break;
                     }
 
-                    //Add the surrounding coordinates to the reveal list, but only if they aren't in there already
-                    Vector2 newcoordinates = coordinates[i] + Vector2.up;
-                    if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                    if (value == 0)
                     {
-                        coordinates.Add(newcoordinates);
-                    }
+                        //Add the surrounding coordinates to the reveal list, but only if they aren't in there already
+                        #region Adding surrounding coordinates
+                        Vector2 newcoordinates = coordinates[i] + Vector2.up;
+                        if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                        {
+                            coordinates.Add(newcoordinates);
+                        }
 
-                    newcoordinates = coordinates[i] + Vector2.left;
-                    if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
-                    {
-                        coordinates.Add(newcoordinates);
-                    }
+                        newcoordinates = coordinates[i] + Vector2.left;
+                        if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                        {
+                            coordinates.Add(newcoordinates);
+                        }
 
-                    newcoordinates = coordinates[i] + Vector2.right;
-                    if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
-                    {
-                        coordinates.Add(newcoordinates);
-                    }
+                        newcoordinates = coordinates[i] + Vector2.right;
+                        if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                        {
+                            coordinates.Add(newcoordinates);
+                        }
 
-                    newcoordinates = coordinates[i] + Vector2.down;
-                    if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
-                    {
-                        coordinates.Add(newcoordinates);
+                        newcoordinates = coordinates[i] + Vector2.down;
+                        if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                        {
+                            coordinates.Add(newcoordinates);
+                        }
+
+                        newcoordinates = coordinates[i] + Vector2.up + Vector2.left;
+                        if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                        {
+                            coordinates.Add(newcoordinates);
+                        }
+
+                        newcoordinates = coordinates[i] + Vector2.down + Vector2.left;
+                        if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                        {
+                            coordinates.Add(newcoordinates);
+                        }
+
+                        newcoordinates = coordinates[i] + Vector2.up + Vector2.right;
+                        if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                        {
+                            coordinates.Add(newcoordinates);
+                        }
+
+                        newcoordinates = coordinates[i] + Vector2.down + Vector2.right;
+                        if (InGrid(newcoordinates) && !coordinates.Contains(newcoordinates))
+                        {
+                            coordinates.Add(newcoordinates);
+                        }
+                        #endregion
                     }
                 }
             }
