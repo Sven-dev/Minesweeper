@@ -12,6 +12,8 @@ public class GridManager : MonoBehaviour
     [Space]
     [SerializeField] private GridLayoutGroup Grid;
     [SerializeField] private Panel PanelPrefab;
+    [Space]
+    [SerializeField] private GUIManager GUIManager;
 
     private int PanelsLeft;
 
@@ -24,6 +26,8 @@ public class GridManager : MonoBehaviour
         Instance = this;
         PanelsLeft = GridSize * GridSize - Bombs;
         GenerateGrid();
+
+        GUIManager.SetBombAmount(Bombs);
     }
 
     private void GenerateGrid()
@@ -88,7 +92,7 @@ public class GridManager : MonoBehaviour
         Panel panel = GetPanel(coordinates);
         if (panel.Revealed)
         {
-            print("reveal duplicate");
+            Debug.LogError("reveal duplicate");
             //Ideally this code should never be triggered, but it will for now
             return;
         }
@@ -97,6 +101,8 @@ public class GridManager : MonoBehaviour
         {
             FirstClick = false;
             GenerateBombs(Bombs, coordinates);
+
+            GUIManager.FirstPanelReveal();
         }
 
         int value = GetValue(coordinates);
