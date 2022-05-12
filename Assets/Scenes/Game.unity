@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridSize: 16
-  Bombs: 25
+  Bombs: 50
   Grid: {fileID: 90718927}
   PanelPrefab: {fileID: 7078802091721977472, guid: f7117c92912dfb3408374fbaca121c64,
     type: 3}

@@ -131,18 +131,17 @@ public class GridManager : MonoBehaviour
     /// Generates bombs into the array
     /// </summary>
     /// <param name="bombs">the amount of bombs</param>
-    /// <param name="SkipCoordinates">the clicked coordinates that cannot have a bomb on it</param>
-    private void GenerateBombs(int bombs, Vector2 SkipCoordinates)
+    /// <param name="clickedCoordinates">the clicked coordinates that cannot have a bomb on it</param>
+    private void GenerateBombs(int bombs, Vector2 clickedCoordinates)
     {
         int i = 0;
         while (i < bombs)
         {
+            //Generate a random position
             Vector2 bombCoordinates = new Vector2(Random.Range(0, GridSize), Random.Range(0, GridSize));
 
-            //To do: Check for a minimum distance from the skipcoordinates
-
-            //If the coordinates aren't the same as the skipcoordinates
-            if (bombCoordinates != SkipCoordinates)
+            //Make sure the bombs get spawned at least 2 panels away from the clicked position
+            if (bombCoordinates.x > clickedCoordinates.x + 1 || bombCoordinates.x < clickedCoordinates.x - 1 && bombCoordinates.y > clickedCoordinates.y + 1 || bombCoordinates.y < clickedCoordinates.y - 1)
             {
                 //And the coordinates don't have a bomb on them already
                 Panel panel = GetPanel(bombCoordinates);
@@ -152,7 +151,7 @@ public class GridManager : MonoBehaviour
                     panel.Value = -1;
                     i++;
                 }
-            }
+            }         
         }
     }
 

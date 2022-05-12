@@ -20,6 +20,8 @@ public class GUIManager : MonoBehaviour
 
     private IEnumerator _Timer()
     {
+        //To do: convert seconds to time
+
         int time = 0;
         while (true)
         {
