@@ -9,4 +9,9 @@ public class SceneReloader : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void ReloadScene(float delay)
+    {
+        Invoke("ReloadScene", delay);
+    }
 }

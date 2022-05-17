@@ -440,7 +440,9 @@ public class GridManager : MonoBehaviour
 
         if (bombCounter == Bombs)
         {
-            print("victory");
+            GameOver = true;
+
+            GUIManager.StopTimer();
             yield return new WaitForSeconds(2);
             GUIManager.Victory();
         }
