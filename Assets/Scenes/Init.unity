@@ -128,6 +128,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1487633214657388522, guid: d21d40e053a0ceb499904da364436a28,
+        type: 3}
+      propertyPath: SettingToMake.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487633214657388522, guid: d21d40e053a0ceb499904da364436a28,
+        type: 3}
+      propertyPath: SettingToMake.Array.data[0].Label
+      value: Difficulty
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487633214657388522, guid: d21d40e053a0ceb499904da364436a28,
+        type: 3}
+      propertyPath: SettingToMake.Array.data[0].Value
+      value: Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487633214657388522, guid: d21d40e053a0ceb499904da364436a28,
+        type: 3}
+      propertyPath: SettingToMake.Array.data[0].Default
+      value: Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487633214657388522, guid: d21d40e053a0ceb499904da364436a28,
+        type: 3}
+      propertyPath: SettingToMake.Array.data[0].PossibleValues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487633214657388522, guid: d21d40e053a0ceb499904da364436a28,
+        type: 3}
+      propertyPath: SettingToMake.Array.data[0].PossibleValues.Array.data[0]
+      value: Easy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487633214657388522, guid: d21d40e053a0ceb499904da364436a28,
+        type: 3}
+      propertyPath: SettingToMake.Array.data[0].PossibleValues.Array.data[1]
+      value: Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487633214657388522, guid: d21d40e053a0ceb499904da364436a28,
+        type: 3}
+      propertyPath: SettingToMake.Array.data[0].PossibleValues.Array.data[2]
+      value: Hard
+      objectReference: {fileID: 0}
     - target: {fileID: 7580370671467913558, guid: d21d40e053a0ceb499904da364436a28,
         type: 3}
       propertyPath: m_RootOrder

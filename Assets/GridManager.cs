@@ -26,10 +26,27 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        BombsLeft = Bombs;
         GenerateGrid();
 
-        GUIManager.SetBombAmount(Bombs);
+        switch (GlobalGameSettings.GetSetting("Difficulty"))
+        {
+            case "Easy":
+                Bombs = 8;
+                break;
+
+            case "Medium":
+                Bombs = 10;
+                break;
+                
+            case "Hard":
+                Bombs = 12;
+                break;
+
+            default:
+                throw new System.Exception("Unknown difficulty");
+        }
+        BombsLeft = Bombs;
+        GUIManager.SetBombAmount(BombsLeft);
     }
 
     public void revealPanel(Vector2 coordinates)
