@@ -63,6 +63,7 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
         {
             ValueLabel.enabled = true;
             ValueLabel.text = value.ToString();
+            ValueLabel.color = ColorPicker.Instance.Colors[value - 1];
         }
 
         //turn the panel around (or another animation)
