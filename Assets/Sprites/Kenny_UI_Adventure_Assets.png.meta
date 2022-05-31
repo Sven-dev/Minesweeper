@@ -26,6 +26,9 @@ TextureImporter:
   - first:
       213: -5282911695883833476
     second: Spritesheet_7
+  - first:
+      213: 4347012782002886183
+    second: Kenny_UI_Adventure_Assets_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -261,12 +264,12 @@ TextureImporter:
       name: Spritesheet_7
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
-        width: 34
-        height: 34
+        x: 127
+        y: 87
+        width: 70
+        height: 70
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -274,6 +277,27 @@ TextureImporter:
       bones: []
       spriteID: c7f661b7dc35fa6b0800000000000000
       internalID: -5282911695883833476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kenny_UI_Adventure_Assets_0
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 17
+        width: 70
+        height: 70
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3213925}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7265d510811b35c30800000000000000
+      internalID: 4347012782002886183
       vertices: []
       indices: 
       edges: []
