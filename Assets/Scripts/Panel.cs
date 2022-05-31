@@ -11,6 +11,9 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     [HideInInspector] public bool Flagged = false;
 
     [SerializeField] private Image Background;
+    [SerializeField] private Sprite RevealedSprite;
+    [SerializeField] private Color RevealedColor;
+    [Space]
     [SerializeField] private Text ValueLabel;
     [SerializeField] private Image BombImage;
     [SerializeField] private Image FlagImage;
@@ -51,7 +54,8 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     {
         Revealed = true;
         Value = value;
-        Background.color = Color.white;
+        Background.sprite = RevealedSprite;
+        Background.color = RevealedColor;
 
         //reveal either nothing, a number or a bomb
         if (value == -1)

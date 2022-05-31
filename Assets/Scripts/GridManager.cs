@@ -10,6 +10,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int GridSize = 5; //horizontal and vertical grid size
     [SerializeField] private int Bombs = 5;
     [Space]
+    [SerializeField] private int Padding = 10;
     [SerializeField] private GridLayoutGroup Grid;
     [SerializeField] private Panel PanelPrefab;
     [Space]
@@ -120,7 +121,10 @@ public class GridManager : MonoBehaviour
 
         //Calculate the cell size
         //((total space - side padding) - (padding per panel (amount of panels)) / amount of panels;
-        Vector2 cellSize = Vector2.one * ((1100 - 20) - 10 * (GridSize - 1)) / GridSize;
+        Vector2 cellSize = Vector2.one * ((1100 - Padding * 2) - Padding * (GridSize - 1)) / GridSize;
+
+        Grid.padding = new RectOffset(Padding, Padding, Padding, Padding);
+        Grid.spacing = new Vector2(Padding, Padding);
         Grid.cellSize = cellSize;
 
         int x = 0;
