@@ -17,6 +17,7 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     [SerializeField] private Text ValueLabel;
     [SerializeField] private Image BombImage;
     [SerializeField] private Image FlagImage;
+    [SerializeField] private GameObject Explosion;
     [Space]
     [SerializeField] private BoxCollider2D Collider;
 
@@ -61,7 +62,7 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
         if (value == -1)
         {
             //Bomb
-            BombImage.enabled = true;
+            ShowBomb();
         }
         else if (value != 0)
         {
@@ -77,5 +78,6 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     public void ShowBomb()
     {
         BombImage.enabled = true;
+        Explosion.SetActive(true);
     }
 }
