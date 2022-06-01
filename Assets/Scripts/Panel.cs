@@ -79,5 +79,6 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     {
         BombImage.enabled = true;
         Explosion.SetActive(true);
+        ScreenShaker.Instance.Shake(0.0825f, 0.1f);
     }
 }
