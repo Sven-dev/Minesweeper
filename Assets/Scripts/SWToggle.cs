@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class SWToggle : Toggle, I_SmartwallInteractable
 {
+    private bool Cooldown = false;
+
 #if !UNITY_EDITOR
     public void Hit(Vector3 hitpos)
     {
         isOn = !isOn;
+        StartCoroutine(_Cooldown());
     }
 #endif
 
@@ -18,4 +21,11 @@ public class SWToggle : Toggle, I_SmartwallInteractable
 
     }
 #endif
+
+    private IEnumerator _Cooldown()
+    {
+        Cooldown = true;
+        yield return new WaitForSeconds(0.25f);
+        Cooldown = false;
+    }
 }
