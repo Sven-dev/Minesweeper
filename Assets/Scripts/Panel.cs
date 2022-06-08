@@ -12,11 +12,12 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
 
     [SerializeField] private Image Background;
     [SerializeField] private Sprite RevealedSprite;
-    [SerializeField] private Color RevealedColor;
+    [SerializeField] private Color RevealedColor;  
     [Space]
     [SerializeField] private Text ValueLabel;
     [SerializeField] private Image BombImage;
     [SerializeField] private Image FlagImage;
+    [SerializeField] private Image WrongFlagX;
     [SerializeField] private GameObject Explosion;
     [Space]
     [SerializeField] private BoxCollider2D Collider;
@@ -49,12 +50,28 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     {
         Flagged = !Flagged;
         FlagImage.enabled = Flagged;
+
+        if (Flagged)
+        {
+            AudioManager.Instance.Play("FlagMark");
+        }
+        else
+        {
+            AudioManager.Instance.Play("FlagClear");
+        }
+    }
+
+    public void ToggleX()
+    {
+        WrongFlagX.enabled = !WrongFlagX.enabled;
     }
 
     public void Reveal(int value)
     {
         Revealed = true;
         Value = value;
+
+        //turn the panel around (or another animation)
         Background.sprite = RevealedSprite;
         Background.color = RevealedColor;
 
@@ -62,17 +79,22 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
         if (value == -1)
         {
             //Bomb
+            //Move the bomb image down to make it allign with the panel
+            BombImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -5);
+
             ShowBomb();
+            return;
         }
-        else if (value != 0)
+
+        if (value != 0)
         {
             ValueLabel.enabled = true;
             ValueLabel.text = value.ToString();
             ValueLabel.color = ColorPicker.Instance.Colors[value - 1];
         }
 
-        //turn the panel around (or another animation)
         //Sound effect
+        AudioManager.Instance.PlayRandom("PanelReveal");
     }
 
     public void ShowBomb()
@@ -80,5 +102,8 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
         BombImage.enabled = true;
         Explosion.SetActive(true);
         ScreenShaker.Instance.Shake(0.0825f, 0.1f);
+
+        //Sound effect
+        AudioManager.Instance.Play("BombExplode");
     }
 }

@@ -55,8 +55,8 @@ public class GridManager : MonoBehaviour
         Panel panel = GetPanel(coordinates);
         if (panel.Revealed)
         {
-            Debug.LogError("reveal duplicate");
-            //Ideally this code should never be triggered, but it will for now
+            //Ideally this code should never be triggered
+            Debug.LogError("reveal duplicate");         
             return;
         }
 
@@ -71,6 +71,7 @@ public class GridManager : MonoBehaviour
         int value = GetValue(coordinates);
         panel.Reveal(value);
         
+        //If the panel is a bomb, game over
         if (panel.Value == -1)
         {
             StartCoroutine(_GameOver());
@@ -178,6 +179,8 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator _AutoReveal(Vector2 panelcoords)
     {
+        yield return new WaitForSeconds(0.25f);
+
         List<Vector2> coordinates = new List<Vector2>();
 
         #region Adding surrounding coordinates
@@ -234,7 +237,7 @@ public class GridManager : MonoBehaviour
         for (int i = 0; i < coordinates.Count; i++)
         {
             Panel panel = GetPanel(coordinates[i]);
-            if (!panel.Revealed)
+            if (!panel.Revealed && !panel.Flagged)
             {
                 int value = GetValue(coordinates[i]);
 
@@ -298,7 +301,7 @@ public class GridManager : MonoBehaviour
                 }
             }
 
-            yield return null;
+            yield return new WaitForSeconds(0.075f);
         }
     }
 
@@ -433,6 +436,8 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator CheckVictory()
     {
+        AudioManager.Instance.Play("DrumRoll");
+
         int bombCounter = 0;
         foreach (Panel panel in Grid.transform.GetComponentsInChildren<Panel>())
         {
@@ -442,36 +447,42 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        //Victory
         if (bombCounter == Bombs)
         {
             GameOver = true;
 
             GUIManager.StopTimer();
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(3);
             GUIManager.Victory();
+
+            AudioManager.Instance.Play("VictoryFeedback");
         }
     }
 
     private IEnumerator _GameOver()
     {
         GameOver = true;
-
         GUIManager.StopTimer();
         yield return new WaitForSeconds(2f);
 
         Panel[] panels = Grid.transform.GetComponentsInChildren<Panel>();
         foreach (Panel panel in panels)
         {
-            if (panel.Value == -1)
+            if (panel.Value == -1 && !panel.Flagged)
             {
                 panel.ShowBomb();
-                yield return new WaitForSeconds(Random.Range(0.01f, 0.07f));
+                yield return new WaitForSeconds(Random.Range(0.05f, 0.1f));
+            }
+            else if (panel.Value != -1 && panel.Flagged)
+            {
+                panel.ToggleX();
             }
         }
 
         yield return new WaitForSeconds(2f);
         GUIManager.GameOver();
 
-        
+        AudioManager.Instance.Play("GameOverFeedback");
     }
 }
