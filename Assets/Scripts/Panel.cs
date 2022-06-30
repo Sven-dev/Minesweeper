@@ -22,6 +22,8 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     [Space]
     [SerializeField] private BoxCollider2D Collider;
 
+    private bool OnCooldown = false;
+
     /// <summary>
     /// Sets the collider size to be the same as the image
     /// </summary>
@@ -33,7 +35,7 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
     public void Hit(Vector3 hitPosition)
     {
         print("Hit");
-        if (!GridManager.Instance.GameOver && !Revealed)
+        if (!OnCooldown && !GridManager.Instance.GameOver && !Revealed)
         {
             if (GridManager.Instance.FlagMode)
             {
@@ -43,7 +45,16 @@ public class Panel : MonoBehaviour, I_SmartwallInteractable
             {
                 GridManager.Instance.revealPanel(Coordinates);
             }
+
+            StartCoroutine(_Cooldown());
         }
+    }
+
+    private IEnumerator _Cooldown()
+    {
+        OnCooldown = true;
+        yield return new WaitForSeconds(0.25f);
+        OnCooldown = false;
     }
 
     public void ToggleFlag()

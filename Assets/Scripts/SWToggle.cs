@@ -10,8 +10,11 @@ public class SWToggle : Toggle, I_SmartwallInteractable
 #if !UNITY_EDITOR
     public void Hit(Vector3 hitpos)
     {
-        isOn = !isOn;
-        StartCoroutine(_Cooldown());
+        if(!Cooldown)
+        {
+            isOn = !isOn;
+            StartCoroutine(_Cooldown());
+        }
     }
 #endif
 
