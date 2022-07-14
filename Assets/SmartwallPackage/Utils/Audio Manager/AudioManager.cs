@@ -374,6 +374,15 @@ public class AudioManager : MonoBehaviour
     {
         Sound sound = GetSound(name);
 
+        //If the user tried to play a sound with only 1 clip, use Play() instead
+        //Causes infinite while loop otherwise
+        if (sound.Clips.Length == 1)
+        {
+            Debug.LogWarning("Warning: " + name + " only  has one clip, and cannot be randomized (did you mean to use Play()?)");
+            Play(name);
+            return;
+        }
+
         int random = UnityEngine.Random.Range(0, sound.Clips.Length);
         while (random == sound.LastClipIndex)
         {

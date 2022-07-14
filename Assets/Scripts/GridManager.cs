@@ -48,6 +48,8 @@ public class GridManager : MonoBehaviour
         }
         BombsLeft = Bombs;
         GUIManager.SetBombAmount(BombsLeft);
+
+        AudioManager.Instance.Play("Cave Ambience");
     }
 
     public void revealPanel(Vector2 coordinates)
@@ -456,6 +458,7 @@ public class GridManager : MonoBehaviour
             yield return new WaitForSeconds(3);
             GUIManager.Victory();
 
+            AudioManager.Instance.Stop("Cave Ambience");
             AudioManager.Instance.Play("VictoryFeedback");
         }
     }
@@ -464,6 +467,7 @@ public class GridManager : MonoBehaviour
     {
         GameOver = true;
         GUIManager.StopTimer();
+        AudioManager.Instance.Stop("Cave Ambience");
         yield return new WaitForSeconds(2f);
 
         Panel[] panels = Grid.transform.GetComponentsInChildren<Panel>();
