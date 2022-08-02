@@ -181,7 +181,7 @@ PrefabInstance:
     - target: {fileID: 4989836045423086356, guid: 776fc9e671bb2504abca7ee04e2417bd,
         type: 3}
       propertyPath: Music.Array.data[0].Volume
-      value: 0.25
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 4989836045423086356, guid: 776fc9e671bb2504abca7ee04e2417bd,
         type: 3}
@@ -251,7 +251,7 @@ PrefabInstance:
     - target: {fileID: 4989836045423086356, guid: 776fc9e671bb2504abca7ee04e2417bd,
         type: 3}
       propertyPath: Sounds.Array.data[7].Volume
-      value: 1
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 4989836045423086356, guid: 776fc9e671bb2504abca7ee04e2417bd,
         type: 3}
